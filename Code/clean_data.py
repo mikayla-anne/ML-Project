@@ -3,7 +3,7 @@
 
 # ## Clean data
 
-# In[77]:
+# In[316]:
 
 
 import pandas as pd
@@ -11,27 +11,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+import seaborn as sns; sns.set(color_codes=True)
+from sklearn.decomposition import PCA
 
 
 # #### Read in dataset (Student Performance in Maths)
 
-# In[78]:
+# In[309]:
 
 
 student_dataset = pd.read_csv("../Dataset/student-mat.csv",sep = ";")
-student_dataset.head()
-
-# There are 3 different outcomes since there are 3 different test results
-# Split data based on outcomes
-
-G1_dataset = student_dataset.drop(columns = ["G2","G3"])
-G2_dataset = student_dataset.drop(columns = ["G1","G3"])
-G3_dataset = student_dataset.drop(columns = ["G1","G2"])
 
 
 # #### Dealing with non numerical data
 
-# In[79]:
+# In[310]:
 
 
 #https://pythonprogramming.net/working-with-non-numerical-data-machine-learning-tutorial/
@@ -55,21 +49,59 @@ def change_to_numerical(data):
             data[feature] = list(map(convert_to_int, data[feature]))
 
 
-# In[80]:
+# In[311]:
 
 
 change_to_numerical(student_dataset)
 
 
+# #### Visualize data
+
+# In[266]:
+
+
+features = student_dataset.columns.values
+for feature in features:
+    fig, ax = plt.subplots()
+    ax.plot(student_dataset[feature])
+    ax.set_title(feature)
+
+student_dataset.columns.values
+
+
+# In[313]:
+
+
+sns.set(font_scale=1.4)
+f, ax = plt.subplots(figsize=(30, 30))
+corr = student_dataset.corr()
+hm = sns.heatmap(round(corr,2), annot=True, ax=ax, cmap="coolwarm",fmt='.2f',
+                 linewidths=.05)
+f.subplots_adjust(top=0.93)
+t= f.suptitle('Student Performance Correlation Heatmap', fontsize=14)
+
+
 # #### Split input data and output data
 
-# In[81]:
+# In[330]:
+
+
+student_dataset
+
+
+# In[ ]:
+
+
+
+
+
+# In[170]:
 
 
 student_data = student_dataset.drop(columns=['G1','G2','G3'])
 
 
-# In[82]:
+# In[171]:
 
 
 G1_values= student_dataset['G1']
@@ -79,7 +111,7 @@ G3_values= student_dataset['G3']
 
 # #### Split train and test data
 
-# In[83]:
+# In[172]:
 
 
 G1_x_train , G1_x_test , G1_y_train , G1_y_test = train_test_split(student_data , G1_values, test_size=0.2)
@@ -87,33 +119,74 @@ G2_x_train , G2_x_test , G2_y_train , G2_y_test = train_test_split(student_data 
 G3_x_train , G3_x_test , G3_y_train , G3_y_test = train_test_split(student_data , G3_values, test_size=0.2)
 
 
+# #### PCA to increase learning speed
+
+# In[339]:
+
+
+# still working on this
+# change student dataset to training datasets
+
+
+# In[332]:
+
+
+pca = PCA(n_components=15)
+comp = pca.fit_transform(student_dataset)
+np.sum(pca.explained_variance_ratio_)
+
+
+# In[336]:
+
+
+pca = PCA(0.95)
+pca.fit(student_dataset)
+print(pca.n_components_)
+train_img_pca = pca.transform(student_dataset)
+
+
 # ### Functions to return cleaned data
 
-# In[84]:
+# In[345]:
 
 
 def student_G1_data():
-    return G1_x_train , G1_x_test , G1_y_train , G1_y_test
+    return G1_x_train.to_numpy() , G1_x_test.to_numpy() , G1_y_train.to_numpy() , G1_y_test.to_numpy()
 
 
-# In[85]:
+# In[346]:
 
 
 def student_G2_data():
-    return G2_x_train , G2_x_test , G2_y_train , G2_y_test
+    return G2_x_train.to_numpy() , G2_x_test.to_numpy() , G2_y_train.to_numpy() , G2_y_test.to_numpy()
 
 
-# In[86]:
+# In[347]:
 
 
 def student_G3_data():
-    return G3_x_train , G3_x_test , G3_y_train , G3_y_test
+    return G3_x_train.to_numpy() , G3_x_test.to_numpy() , G3_y_train.to_numpy() , G3_y_test.to_numpy()
 
 
 # In[ ]:
 
 
+def pca_G1_data():
+    return 0
 
+
+# In[ ]:
+
+
+def pca_G2_data():
+    return 0
+
+
+# In[ ]:
+
+
+def pca_G3_data():
+    return 0
 
 
 # In[ ]:
