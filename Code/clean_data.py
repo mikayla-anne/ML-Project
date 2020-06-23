@@ -17,7 +17,7 @@ from sklearn.decomposition import PCA
 
 # #### Read in dataset (Student Performance in Maths)
 
-# In[61]:
+# In[3]:
 
 
 student_dataset = pd.read_csv("../Dataset/student-mat.csv",sep = ";")
@@ -26,7 +26,7 @@ student_dataset
 
 # #### Dealing with non numerical data
 
-# In[62]:
+# In[4]:
 
 
 #https://pythonprogramming.net/working-with-non-numerical-data-machine-learning-tutorial/
@@ -50,7 +50,7 @@ def change_to_numerical(data):
             data[feature] = list(map(convert_to_int, data[feature]))
 
 
-# In[63]:
+# In[5]:
 
 
 change_to_numerical(student_dataset)
@@ -70,6 +70,12 @@ for feature in features:
 student_dataset.columns.values
 
 
+# In[ ]:
+
+
+
+
+
 # In[7]:
 
 
@@ -84,7 +90,7 @@ t= f.suptitle('Student Performance Correlation Heatmap', fontsize=14)
 
 # #### Split input data and output data
 
-# In[76]:
+# In[6]:
 
 
 student_input = student_dataset.drop(columns=['G3'])
@@ -93,7 +99,7 @@ student_output = G3_values= student_dataset['G3']
 
 # #### Split train and test data
 
-# In[77]:
+# In[7]:
 
 
 x_train , x_test , y_train , y_test = train_test_split(student_input , student_output, test_size=0.2)
@@ -129,36 +135,38 @@ train_img_pca = pca.transform(student_dataset)
 
 # ### Functions to return cleaned data
 
-# In[14]:
+# In[8]:
 
 
 def student_np():
     return x_train.to_numpy() , x_test.to_numpy() , y_train.to_numpy() , y_test.to_numpy()
 
 
-# In[18]:
+# In[9]:
 
 
 def student_df():
     return x_train , x_test , y_train , y_test
 
 
-# In[19]:
+# In[10]:
 
 
 def pca_data():
     return 0
 
 
+# Ignore next part. Just testing algorithms and visualisations of results.
+
 # ## Decision tree
 
-# In[79]:
+# In[11]:
 
 
 x_train , x_test , y_train , y_test = student_np()
 
 
-# In[27]:
+# In[12]:
 
 
 from sklearn import tree
@@ -168,7 +176,7 @@ import matplotlib.image as pltimg
 from sklearn import metrics 
 
 
-# In[106]:
+# In[13]:
 
 
 clf = DecisionTreeClassifier()
@@ -176,16 +184,120 @@ clf = clf.fit(x_train,y_train)
 y_pred = clf.predict(x_test)
 
 
-# In[107]:
+# In[14]:
 
 
 print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
 
 
-# In[108]:
+# In[15]:
 
 
 print(metrics.confusion_matrix(y_test, y_pred))
+
+
+# ## Linear Regresion
+
+# In[16]:
+
+
+from sklearn.linear_model import LinearRegression 
+
+
+# In[59]:
+
+
+regr = LinearRegression() 
+  
+regr.fit(x_train, y_train) 
+print(regr.score(x_test, y_test))
+print(regr.intercept_)
+print(regr.coef_)
+y_pred = np.around(regr.predict(x_test))
+df = pd.DataFrame({'Actual': y_test.flatten(), 'Predicted': y_pred.flatten()})
+print(df)
+
+
+# In[55]:
+
+
+df1 = df.head(25)
+df1.plot(kind='bar',figsize=(16,10))
+plt.grid(which='major', linestyle='-', linewidth='0.5', color='green')
+plt.grid(which='minor', linestyle=':', linewidth='0.5', color='black')
+plt.show()
+
+
+# In[56]:
+
+
+print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))  
+print('Mean Squared Error:', metrics.mean_squared_error(y_test, y_pred))  
+print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+
+
+# In[63]:
+
+
+cm = metrics.confusion_matrix(y_test, y_pred)
+
+plt.figure(figsize=(15,15))
+sns.heatmap(cm, annot=True, fmt=".3f", linewidths=.5, square = True, cmap = 'Blues_r');
+plt.ylabel('Actual label');
+plt.xlabel('Predicted label');
+all_sample_title = 'Accuracy Score: {0}'.format(score)
+plt.title(all_sample_title, size = 15);
+
+
+# In[58]:
+
+
+print(metrics.confusion_matrix(y_test, y_pred))
+
+
+# ## Logistic Regression
+
+# In[60]:
+
+
+from sklearn.linear_model import LogisticRegression
+
+
+# In[72]:
+
+
+logisticRegr = LogisticRegression(max_iter = 5000)
+#logisticRegr = LogisticRegression(solver = 'lbfgs')
+logisticRegr.fit(x_train, y_train)
+predictions = logisticRegr.predict(x_test)
+score = logisticRegr.score(x_test, y_test)
+print(score)
+
+
+# In[ ]:
+
+
+
+
+
+# ## Neural Networks
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
