@@ -156,152 +156,153 @@ def pca_data():
     return 0
 
 
-# Ignore next part. Just testing algorithms and visualisations of results.
-
-# ## Decision tree
-
-# In[11]:
-
-
-x_train , x_test , y_train , y_test = student_np()
-
-
-# In[12]:
-
-
-from sklearn import tree
-from sklearn.tree import DecisionTreeClassifier
-import matplotlib.pyplot as plt
-import matplotlib.image as pltimg
-from sklearn import metrics 
-
-
-# In[13]:
-
-
-clf = DecisionTreeClassifier()
-clf = clf.fit(x_train,y_train)
-y_pred = clf.predict(x_test)
-
-
-# In[14]:
-
-
-print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
-
-
-# In[15]:
-
-
-print(metrics.confusion_matrix(y_test, y_pred))
-
-
-# ## Linear Regresion
-
-# In[16]:
-
-
-from sklearn.linear_model import LinearRegression 
-
-
-# In[59]:
-
-
-regr = LinearRegression() 
-  
-regr.fit(x_train, y_train) 
-print(regr.score(x_test, y_test))
-print(regr.intercept_)
-print(regr.coef_)
-y_pred = np.around(regr.predict(x_test))
-df = pd.DataFrame({'Actual': y_test.flatten(), 'Predicted': y_pred.flatten()})
-print(df)
-
-
-# In[55]:
-
-
-df1 = df.head(25)
-df1.plot(kind='bar',figsize=(16,10))
-plt.grid(which='major', linestyle='-', linewidth='0.5', color='green')
-plt.grid(which='minor', linestyle=':', linewidth='0.5', color='black')
-plt.show()
-
-
-# In[56]:
-
-
-print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))  
-print('Mean Squared Error:', metrics.mean_squared_error(y_test, y_pred))  
-print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
-
-
-# In[63]:
-
-
-cm = metrics.confusion_matrix(y_test, y_pred)
-
-plt.figure(figsize=(15,15))
-sns.heatmap(cm, annot=True, fmt=".3f", linewidths=.5, square = True, cmap = 'Blues_r');
-plt.ylabel('Actual label');
-plt.xlabel('Predicted label');
-all_sample_title = 'Accuracy Score: {0}'.format(score)
-plt.title(all_sample_title, size = 15);
-
-
-# In[58]:
-
-
-print(metrics.confusion_matrix(y_test, y_pred))
-
-
-# ## Logistic Regression
-
-# In[60]:
-
-
-from sklearn.linear_model import LogisticRegression
-
-
-# In[72]:
-
-
-logisticRegr = LogisticRegression(max_iter = 5000)
-#logisticRegr = LogisticRegression(solver = 'lbfgs')
-logisticRegr.fit(x_train, y_train)
-predictions = logisticRegr.predict(x_test)
-score = logisticRegr.score(x_test, y_test)
-print(score)
-
-
-# In[ ]:
-
-
-
-
-
-# ## Neural Networks
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
+## Ignore next part. Just testing algorithms and visualisations of results.
+#
+## ## Decision tree
+#
+## In[11]:
+#
+#
+#x_train , x_test , y_train , y_test = student_np()
+#
+#
+## In[12]:
+#
+#
+#from sklearn import tree
+#from sklearn.tree import DecisionTreeClassifier
+#import matplotlib.pyplot as plt
+#import matplotlib.image as pltimg
+#from sklearn import metrics 
+#
+#
+## In[13]:
+#
+#
+#clf = DecisionTreeClassifier()
+#clf = clf.fit(x_train,y_train)
+#y_pred = clf.predict(x_test)
+#
+#
+## In[14]:
+#
+#
+#print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
+#
+#
+## In[15]:
+#
+#
+#print(metrics.confusion_matrix(y_test, y_pred))
+#
+#
+## ## Linear Regresion
+#
+## In[16]:
+#
+#
+#from sklearn.linear_model import LinearRegression 
+#
+#
+## In[59]:
+#
+#
+#regr = LinearRegression() 
+#  
+#regr.fit(x_train, y_train) 
+#print(regr.score(x_test, y_test))
+#print(regr.intercept_)
+#print(regr.coef_)
+#y_pred = np.around(regr.predict(x_test))
+#df = pd.DataFrame({'Actual': y_test.flatten(), 'Predicted': y_pred.flatten()})
+#print(df)
+#
+#
+## In[55]:
+#
+#
+#df1 = df.head(25)
+#df1.plot(kind='bar',figsize=(16,10))
+#plt.grid(which='major', linestyle='-', linewidth='0.5', color='green')
+#plt.grid(which='minor', linestyle=':', linewidth='0.5', color='black')
+#plt.show()
+#
+#
+## In[56]:
+#
+#
+#print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))  
+#print('Mean Squared Error:', metrics.mean_squared_error(y_test, y_pred))  
+#print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+#
+#
+## In[63]:
+#
+#
+#cm = metrics.confusion_matrix(y_test, y_pred)
+#
+#plt.figure(figsize=(15,15))
+#sns.heatmap(cm, annot=True, fmt=".3f", linewidths=.5, square = True, cmap = 'Blues_r');
+#plt.ylabel('Actual label');
+#plt.xlabel('Predicted label');
+#all_sample_title = 'Accuracy Score: {0}'.format(score)
+#plt.title(all_sample_title, size = 15);
+#
+#
+## In[58]:
+#
+#
+#print(metrics.confusion_matrix(y_test, y_pred))
+#
+#
+## ## Logistic Regression
+#
+## In[60]:
+#
+#
+#from sklearn.linear_model import LogisticRegression
+#
+#
+## In[72]:
+#
+#
+#logisticRegr = LogisticRegression(max_iter = 5000)
+##logisticRegr = LogisticRegression(solver = 'lbfgs')
+#logisticRegr.fit(x_train, y_train)
+#predictions = logisticRegr.predict(x_test)
+#score = logisticRegr.score(x_test, y_test)
+#print(score)
+#
+#
+## In[ ]:
+#
+#
+#
+#
+#
+## ## Neural Networks
+#
+## In[ ]:
+#
+#
+#
+#
+#
+## In[ ]:
+#
+#
+#
+#
+#
+## In[ ]:
+#
+#
+#
+#
+#
+## In[ ]:
+#
+#
+#
+#
+#
